@@ -1,0 +1,18 @@
+{
+  "author": "Esaú Morais",
+  "name": "wise-desk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Web Component for embedding a chat floating button",
+  "main": "./main.js",
+  "module": "./main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esau-morais/wise-desk-web-component"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/esau-morais/wise-desk-web-component/issues"
+  },
+  "homepage": "https://github.com/esau-morais/wise-desk-web-component"
+}
