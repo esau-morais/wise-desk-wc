@@ -222,11 +222,9 @@ class WiseDeskChat extends HTMLElement {
    * @throws {Error} If the required button elements are not found in the shadow DOM.
    */
   attributeChangedCallback(name, oldValue, newValue) {
-    const buttonEl = this.shadowRoot?.querySelector < HTMLElement > "#button";
-    const buttonWrapperEl =
-      this.shadowRoot?.querySelector < HTMLElement > "button";
-    const buttonIconEl =
-      this.shadowRoot?.querySelector < HTMLElement > "#button-icon";
+    const buttonEl = this.shadowRoot?.querySelector("#button");
+    const buttonWrapperEl = this.shadowRoot?.querySelector("button");
+    const buttonIconEl = this.shadowRoot?.querySelector("#button-icon");
 
     if (!buttonEl) {
       throw new Error("#button not found");
