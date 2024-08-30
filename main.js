@@ -30,7 +30,7 @@ const css = `
   right: 1rem;
   width: 300px;
   max-width: 90vw;
-  min-height: 400px;
+  height: 400px;
   padding: 1rem;
   background-color: white;
   border: 1px solid #e4e4e7;
@@ -127,7 +127,7 @@ const css = `
   border-radius: 0.375rem;
   border: 1px solid #e4e4e7;
   background-color: white;
-  padding: 0.5rem 0.75rem;
+  padding: 0 0.75rem;
   font-size: 0.875rem;
   color: black;
 }
@@ -200,6 +200,11 @@ class WiseDeskChat extends HTMLElement {
     this.shadowRoot.append(button, chatBox);
 
     this.shadowRoot.appendChild(style);
+
+    this.shadowRoot.querySelector("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      this.handleFormSubmit(e);
+    });
   }
 
   assertHasShadowRoot() {
@@ -243,6 +248,63 @@ class WiseDeskChat extends HTMLElement {
     } else {
       console.log("Unknown attribute changed", name, oldValue, newValue);
     }
+  }
+
+  async handleFormSubmit(_evt) {
+    const inputField = this.shadowRoot.querySelector("input[type='text']");
+    const userMessage = inputField.value.trim();
+
+    if (!userMessage) return;
+
+    this.addMessageToChat("sent", userMessage);
+    inputField.value = "";
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/chatbot/question/${encodeURIComponent(userMessage)}`,
+      );
+      const data = await response.json();
+
+      if (data.error_message) {
+        this.addMessageToChat("received", data.error_message);
+      } else {
+        // const steps = JSON.parse(data.stepBy.replace(/'/g, '"'))
+        //   .map((step, index) => `${index + 1}. ${step[0]}`)
+        //   .join("\n");
+        const solution = data.solution;
+        this.addMessageToChat("received", solution);
+      }
+    } catch (error) {
+      this.addMessageToChat(
+        "received",
+        "Não consegui encontrar uma resposta para a pergunta :(",
+      );
+    }
+  }
+
+  /**
+   *
+   * @param {'received' | 'sent'} type
+   * @param {string} message
+   */
+  addMessageToChat(type, message) {
+    const chatMessages = this.shadowRoot.querySelector(".chat-messages");
+
+    const messageElement = document.createElement("div");
+    messageElement.classList.add("message", type);
+    messageElement.innerHTML = `
+      ${type === "received" ? `<span class="avatar"><img alt="Wise Avatar" src="https://ui-avatars.com/api/?name=Wise" /></span>` : ""}
+      <div class="message-content">
+        <p>${message}</p>
+      </div>
+      ${type === "sent" ? `<span class="avatar"><img alt="Avatar" src="https://ui-avatars.com/api/?name=User" /></span>` : ""}
+    `;
+
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTo({
+      top: chatMessages.scrollHeight,
+      behavior: "smooth",
+    });
   }
 }
 

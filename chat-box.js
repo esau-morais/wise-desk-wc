@@ -1,31 +1,23 @@
 export const getChatBoxHtml = () => `
 <div class="chat-container">
   <div class="chat-header">
-    <h3>Chat with us</h3>
+    <h3>Pergunte ao Wise</h3>
   </div>
   <div class="chat-messages">
     <div class="message received">
       <span class="avatar">
-        <img alt="Avatar" src="https://ui-avatars.com/api/?name=John+Doe" />
+        <img alt="Wise Avatar" src="https://ui-avatars.com/api/?name=Wise" />
       </span>
       <div class="message-content">
-        <p>Hello, how can I assist you today?</p>
+        <p>Olá, Eu sou o Wise! Como posso lhe ajudar?</p>
       </div>
-    </div>
-    <div class="message sent">
-      <div class="message-content">
-        <p>I have a question about your product. Can you help me?</p>
-      </div>
-      <span class="avatar">
-        <img alt="Avatar" src="https://ui-avatars.com/api/?name=John+Doe" />
-      </span>
     </div>
   </div>
   <div class="chat-input">
     <form class="input-form">
       <input
         type="text"
-        placeholder="Type your message..."
+        placeholder="Digite sua mensagem..."
         autocomplete="off"
       />
       <button type="submit">
